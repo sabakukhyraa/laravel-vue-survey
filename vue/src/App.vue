@@ -1,20 +1,15 @@
 <template>
-    <div>
-        <SigninBox></SigninBox>
-    </div>
+    <router-view></router-view>
 </template>
 
 
 <script>
 
-import SigninBox from './components/SigninBox.vue';
+
 
 export default {
-    components: {
-        SigninBox
-    }
-}
 
+}
 
 </script>
 
