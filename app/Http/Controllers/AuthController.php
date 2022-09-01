@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\HasApiTokens;
+
 
 
 class AuthController extends Controller {
@@ -16,17 +19,17 @@ class AuthController extends Controller {
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(7)->mixedCase()->numbers()->symbols()
+                Password::min(8)->mixedCase()->numbers()->symbols()
             ]
         ]);
 
-        /** @var \App\Models\User $user ç*/
+        /** @var \App\Models\User $user */
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password'])
         ]);
-        $token = $user->createToken('main')->plainTextToken;
+        $token = $user->User::createToken('main')->plainTextToken;
 
 
         return response([
@@ -34,4 +37,39 @@ class AuthController extends Controller {
             'token' => $token
         ]);
     }
-}
+
+
+
+    public function login(Request $request) {
+        $credentials = $request->validate([
+            'email' => 'required|email|string|exists:users,email',
+            'password' => [
+                'required'
+            ],
+            'remember' => 'boolean'
+        ]);
+        $remember = $credentials['remember'] ?? false;
+        unset($credentials['remember']);
+
+        if (!Auth::attempt($credentials, $remember)) {
+            return response([
+                'error' => 'The Provided credentials are not correct'
+            ], 422);
+        }
+
+        $user = Auth::user();
+        $token = $user->User::createToken('main')->plainTextToken;
+
+
+        return response([
+            'user' => $user,
+            'token' => $token
+        ]);
+    }
+
+
+};
+// Asdasd0101!
+
+
+

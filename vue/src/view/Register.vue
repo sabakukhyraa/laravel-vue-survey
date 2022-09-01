@@ -5,24 +5,24 @@
           <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Sign up!</h2>
 
         </div>
-        <form class="mt-8 space-y-6" action="#" method="POST">
+        <form class="mt-8 space-y-6" @submit="register">
           <input type="hidden" name="remember" value="true">
           <div class="rounded-md shadow-sm">
             <div>
               <label for="email-address" class="sr-only">Email address</label>
-              <input id="email-address" name="email" type="email" autocomplete="email" required autofocus class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address">
+              <input id="email-address" name="email" type="email" autocomplete="email" required autofocus class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Email address" v-model="user.email">
             </div>
             <div>
               <label for="username" class="sr-only">Full Name</label>
-              <input id="username" name="name" type="text" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Full name">
+              <input id="username" name="name" type="text" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Full name" v-model="user.name">
             </div>
             <div class="mt-4">
               <label for="password" class="sr-only">Password</label>
-              <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password">
+              <input id="password" name="password" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password" v-model="user.password">
             </div>
             <div>
               <label for="password2" class="sr-only">Password</label>
-              <input id="password2" name="password_confirmation" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password confirmation">
+              <input id="password2" name="password_confirmation" type="password" autocomplete="current-password" required class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm" placeholder="Password confirmation" v-model="user.password_confirmation">
             </div>
           </div>
 
@@ -54,8 +54,29 @@
 
 
 
-<script>
-    export default {
-        name: "Register"
+<script setup>
+    import store from "../store/index.js"
+    import { useRouter } from "vue-router";
+
+    const router = useRouter()
+
+    const user = {
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
     }
+
+    function register(ev) {
+        ev.preventDefault();
+        store
+            .dispatch("register", user)
+            .then(() => {
+                router.push({
+                    name: "Dashboard",
+                });
+            })
+    }
+    //Asdasd0101!
+    //XxaXfz27..!?/
 </script>
